@@ -1,0 +1,66 @@
+/* ===== VOID ACADEMY ===== */
+
+.ac-title { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; overflow-wrap: anywhere; }
+.ac-lead { margin: 8px 0 16px; font-size: 14px; line-height: 1.5; color: var(--text2); overflow-wrap: anywhere; }
+.ac-start { margin-bottom: 22px; }
+.ac-plabel { font-size: 12px; color: var(--text2); margin-bottom: 10px; overflow-wrap: anywhere; }
+.ac-hrow { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.ac-hscore { flex: none; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent-hover); }
+.view#view-academy .section-title { margin-top: 4px; }
+.view#view-academy .list { margin-bottom: 22px; }
+
+/* Окно теста */
+.ac-body { gap: 14px; }
+.ac-mode { margin: 0; }
+.ac-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ac-prog { font-size: 13px; letter-spacing: .18em; font-weight: 600; color: var(--accent-hover); }
+.ac-modetag { font-size: 10px; letter-spacing: .14em; color: var(--text2); }
+.ac-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.ac-bar__fill { height: 100%; background: var(--accent); transition: width calc(.25s * var(--anim-t, 1)) ease; }
+.ac-q { margin: 6px 0 2px; font-size: 18px; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
+
+/* Варианты ответа */
+.ac-opts { display: grid; gap: 10px; }
+.ac-opt { display: flex; align-items: flex-start; gap: 12px; width: 100%; min-height: 56px; padding: 12px 14px;
+  text-align: left; color: var(--text); font-size: 15px; line-height: 1.45;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
+.ac-opt:active { border-color: var(--accent); }
+.ac-opt__l { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text2); }
+.ac-opt__t { min-width: 0; padding-top: 3px; overflow-wrap: anywhere; }
+.ac-opt.sel { border-color: var(--accent-hover); background: var(--accent-22); }
+.ac-opt.sel .ac-opt__l { border-color: var(--accent-hover); color: var(--text); }
+.ac-opt.ok { border-color: var(--ok); background: rgba(76, 138, 91, .16); }
+.ac-opt.ok .ac-opt__l { background: var(--ok); border-color: var(--ok); color: #fff; }
+.ac-opt.bad { border-color: var(--danger); background: var(--accent-12); }
+.ac-opt.bad .ac-opt__l { border-color: var(--danger); color: var(--danger); }
+.ac-opt[disabled] { cursor: default; }
+
+/* Объяснение после ответа (режим обучения) */
+.ac-fb { padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--border); border-left-width: 3px; background: var(--bg2); }
+.ac-fb.ok { border-left-color: var(--ok); }
+.ac-fb.bad { border-left-color: var(--danger); }
+.ac-fb__t { font-weight: 600; margin-bottom: 6px; overflow-wrap: anywhere; }
+.ac-fb__p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text2); overflow-wrap: anywhere; }
+
+/* Результат */
+.ac-score { font-size: 56px; font-weight: 300; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ac-level { font-size: 18px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-hover); }
+
+/* Разбор */
+.ac-rev { border: 1px solid var(--border); border-left-width: 3px; border-radius: var(--radius);
+  background: var(--card); overflow: hidden; }
+.ac-rev.ok { border-left-color: var(--ok); }
+.ac-rev.bad { border-left-color: var(--danger); }
+.ac-rev > summary { display: flex; gap: 10px; align-items: flex-start; min-height: 48px; padding: 12px 14px;
+  cursor: pointer; list-style: none; font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+.ac-rev > summary::-webkit-details-marker { display: none; }
+.ac-rev__m { flex: none; font-weight: 700; }
+.ac-rev.ok .ac-rev__m { color: var(--ok); }
+.ac-rev.bad .ac-rev__m { color: var(--danger); }
+.ac-rev__b { display: grid; gap: 8px; padding: 0 14px 14px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.ac-rev__b p { margin: 0; }
+.ac-rev__q { color: var(--text); }
+.ac-rev__a { color: var(--text2); }
+.ac-rev__a--ok { color: var(--ok); }
+.ac-rev__e { padding-top: 8px; border-top: 1px solid var(--border); color: var(--text2); }

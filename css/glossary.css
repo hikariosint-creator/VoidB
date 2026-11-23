@@ -1,0 +1,29 @@
+/* ===== VOID — Словарь OSINT-аналитика ===== */
+
+.gl-count { font-size: 13px; color: var(--text2); min-height: 18px; margin: 0 0 12px; }
+.gl-count:empty { display: none; }
+.gl-group { margin-bottom: 22px; }
+.gl-group > .section-title { margin-bottom: 10px; }
+.gl-list .list { display: grid; gap: 8px; }
+
+.gl-card .card-snippet { -webkit-line-clamp: 3; }
+.gl-en { color: var(--text2); font-size: 12px; margin-top: 2px; overflow-wrap: anywhere; }
+
+/* Окно термина (использует общий вид редактора) */
+.gl-detail { gap: 14px; }
+.gl-term { margin: 0; font-size: 28px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+.gl-lead { margin: 0; font-size: 17px; line-height: 1.5; color: var(--text); overflow-wrap: anywhere; }
+.gl-p { margin: 0; line-height: 1.6; color: var(--text); overflow-wrap: anywhere; }
+.gl-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--text2); margin-bottom: 8px; }
+.gl-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+.gl-points { margin: 0; padding-left: 20px; display: grid; gap: 6px; line-height: 1.5; overflow-wrap: anywhere; }
+.gl-ex { border-left: 3px solid var(--accent); background: var(--bg2);
+  padding: 10px 14px; border-radius: 0 var(--radius) var(--radius) 0; }
+.gl-ex .gl-p { color: var(--text2); }
+
+.chip--btn { background: transparent; cursor: pointer; padding: 6px 12px; min-height: 34px; }
+.chip--btn:active { border-color: var(--accent); color: var(--text); }
+
+.gl-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.gl-nav .btn { min-height: 52px; font-size: 14px; text-align: center; line-height: 1.25; }
+.gl-nav .btn[hidden] { display: none; }

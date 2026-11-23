@@ -1,0 +1,209 @@
+/* ===== VOID GRAPH — рабочее пространство (этап B) ===== */
+
+/* Рабочее пространство на весь экран поверх приложения */
+.gw { position: absolute; inset: 0; z-index: 60; display: flex; flex-direction: column;
+  background: var(--bg); animation: fade .18s ease; }
+.gw__bar { flex: none; display: flex; align-items: center; gap: 2px;
+  padding: calc(var(--safe-top) + 6px) 8px 6px 4px;
+  min-height: calc(var(--top-h) + var(--safe-top)); border-bottom: 1px solid var(--border); background: var(--bg); }
+.gw__title { flex: 1; min-width: 0; padding: 0 8px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.gw__main { position: relative; flex: 1; min-height: 0; }
+.gw__stage { position: absolute; inset: 0; overflow: hidden; touch-action: none;
+  user-select: none; -webkit-user-select: none; cursor: grab; background: var(--bg); }
+.gw__stage.panning { cursor: grabbing; }
+.gw__grid { position: absolute; inset: 0; pointer-events: none; }
+.gw__world { position: absolute; left: 0; top: 0; width: 0; height: 0;
+  transform-origin: 0 0; will-change: transform; }
+
+/* Нижняя панель масштаба */
+.gw__dock { position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--safe-bottom) + 14px); z-index: 5; display: flex; align-items: center; gap: 2px;
+  padding: 4px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(163, 38, 50, .14); }
+.gw__zoom { min-width: 60px; height: 44px; font-size: 13px; color: var(--text2);
+  font-variant-numeric: tabular-nums; }
+.gw__zoom:active { color: var(--text); }
+
+/* Меню доски */
+.gw__backdrop { position: absolute; inset: 0; z-index: 15; }
+.gw__menu { position: absolute; z-index: 20; right: 8px; min-width: 230px;
+  top: calc(var(--safe-top) + var(--top-h) + 2px); background: var(--bg2);
+  border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .6); animation: fade .15s ease; }
+.gw__menu button { display: flex; align-items: center; width: 100%; min-height: 50px;
+  padding: 0 16px; text-align: left; }
+.gw__menu button:active { background: var(--card); }
+.gw__menu button + button { border-top: 1px solid var(--border); }
+.gw__menu .is-danger { color: #E06A75; }
+
+/* Поле «Описание» в диалоге доски */
+.field textarea { width: 100%; min-height: 84px; padding: 10px 14px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: var(--radius); color: var(--text);
+  font: inherit; font-size: 16px; resize: vertical; }
+.field textarea:focus { outline: none; border-color: var(--accent-hover); }
+.modal__box .field:last-of-type { margin-bottom: 18px; }/* ===== VOID GRAPH — объекты (этап C) ===== */
+
+/* Чёткий текст при увеличении и компактная панель масштаба слева */
+.gw__world { will-change: auto; --inv: 1; }
+.gw__dock { left: 12px; transform: none; }
+.gw__bar .icon-btn:disabled { opacity: .3; }
+.modal { overflow-y: auto; }
+
+/* Объекты */
+.gn { position: absolute; left: 0; top: 0; touch-action: none; cursor: pointer; }
+.gn__in { position: relative; width: 100%; height: 100%; overflow: hidden;
+  display: flex; flex-direction: column; }
+.gn__t, .gn__b { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.3; }
+.gn__t:empty::before, .gn__b:empty::before { content: attr(data-ph); color: var(--text2); opacity: .7; }
+
+.gn.sel { outline: calc(2px * var(--inv)) solid var(--accent-hover); outline-offset: calc(3px * var(--inv)); }
+
+/* Текст */
+.gn--text .gn__in { overflow: visible; }
+.gn--text .gn__b { color: var(--c-ink); padding: 4px 6px; }
+
+/* Стикер */
+.gn--sticky .gn__in { background: var(--c-solid); border-radius: 3px; padding: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45); }
+.gn--sticky .gn__b { color: #17150f; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.gn--sticky .gn__b:empty::before { color: #17150f; opacity: .5; }
+
+/* Заметка */
+.gn--note .gn__in { background: var(--card); border: 1px solid var(--border);
+  border-left: 3px solid var(--c-stroke); border-radius: 6px; padding: 10px 12px; }
+.gn--note .gn__t { font-weight: 600; margin-bottom: 6px; color: var(--c-ink); flex: none; }
+.gn--note .gn__b { color: var(--text); flex: 1 1 auto; min-height: 0; overflow: hidden; }
+
+/* Фигуры */
+.gn--rect .gn__in, .gn--ellipse .gn__in, .gn--diamond .gn__in {
+  align-items: center; justify-content: center; text-align: center; }
+.gn__bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gn__shape { fill: var(--c-fill); stroke: var(--c-stroke); stroke-width: 2px; }
+.gn--rect .gn__b, .gn--ellipse .gn__b, .gn--diamond .gn__b {
+  position: relative; color: var(--text); padding: 8px 12px; max-width: 100%; }
+.gn--ellipse .gn__b { padding: 10% 14%; }
+.gn--diamond .gn__b { padding: 20% 22%; }
+
+/* Ручка изменения размера */
+.gn__h { position: absolute; right: calc(-16px * var(--inv)); bottom: calc(-16px * var(--inv));
+  width: calc(30px * var(--inv)); height: calc(30px * var(--inv)); border-radius: 50%;
+  background: var(--accent); border: calc(2px * var(--inv)) solid var(--text);
+  cursor: nwse-resize; touch-action: none; }
+
+/* Панель выбранного объекта */
+.gw__sel { position: absolute; left: 8px; right: 8px; bottom: calc(var(--safe-bottom) + 76px); z-index: 6;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 8px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .55); }
+.gw__sel .sep { width: 100%; height: 0; }
+.gw__sel button { min-width: 40px; height: 40px; padding: 0 10px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--card); font-size: 13px; }
+.gw__sel button:active { border-color: var(--accent); }
+.gw__sel .sw { width: 32px; min-width: 32px; height: 32px; padding: 0; border-radius: 50%; border: 2px solid var(--border); }
+.gw__sel .sw.on { border-color: var(--text); }
+.gw__sel .is-on { border-color: var(--accent); color: var(--text); font-weight: 700; }
+.gw__sel .is-danger { color: #E06A75; border-color: var(--accent); }
+
+/* Кнопка «+» и палитра */
+.gw__fab { position: absolute; right: 14px; bottom: calc(var(--safe-bottom) + 14px); z-index: 7;
+  width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: #fff;
+  display: grid; place-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .55), 0 0 18px rgba(163, 38, 50, .35); }
+.gw__fab:active { background: var(--accent-hover); }
+.gw__palbd { position: absolute; inset: 0; z-index: 11; }
+.gw__pal { position: absolute; right: 14px; bottom: calc(var(--safe-bottom) + 80px); z-index: 12;
+  width: 220px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, .6); animation: fade .15s ease; }
+.gw__pal button { display: flex; align-items: center; width: 100%; min-height: 48px; padding: 0 16px; text-align: left; }
+.gw__pal button:active { background: var(--card); }
+.gw__pal button + button { border-top: 1px solid var(--border); }/* ===== VOID GRAPH — связи (этап D) ===== */
+
+/* Слой линий под объектами */
+.ge { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible;
+  pointer-events: none; z-index: 0; }
+.ge__hit { fill: none; stroke: transparent; stroke-width: calc(26px * var(--inv));
+  pointer-events: stroke; cursor: pointer; }
+.ge__line { fill: none; stroke-linejoin: round; stroke-linecap: round; pointer-events: none;
+  stroke-width: max(2.5px, calc(1.6px * var(--inv))); }
+.ge__head { stroke-linejoin: round; pointer-events: none; }
+.ge__g.sel .ge__line { stroke-width: max(4px, calc(2.6px * var(--inv)));
+  filter: drop-shadow(0 0 5px var(--accent-hover)); }
+.ge__lbl { font: 13px var(--font); fill: var(--text); stroke: var(--bg); stroke-width: 5px;
+  paint-order: stroke; stroke-linejoin: round; text-anchor: middle; dominant-baseline: central;
+  pointer-events: none; }
+.ge__tmp { fill: none; stroke: var(--accent-hover); stroke-width: max(2px, calc(1.5px * var(--inv)));
+  stroke-dasharray: 6 5; pointer-events: none; }
+
+/* Точки подключения на сторонах выделенного объекта */
+.gn__c { position: absolute; z-index: 2; box-sizing: border-box; touch-action: none; cursor: crosshair;
+  width: calc(18px * var(--inv)); height: calc(18px * var(--inv));
+  margin: calc(-9px * var(--inv)) 0 0 calc(-9px * var(--inv));
+  border-radius: 50%; background: var(--bg); border: calc(2px * var(--inv)) solid var(--accent-hover); }
+.gn__c::after { content: ""; position: absolute; inset: calc(-12px * var(--inv)); }
+.gn__c--t { left: 50%; top: 0; }
+.gn__c--b { left: 50%; top: 100%; }
+.gn__c--l { left: 0; top: 50%; }
+.gn__c--r { left: 100%; top: 50%; }
+
+/* Объект под пальцем при протягивании связи */
+.gn.ge-target { outline: calc(2px * var(--inv)) dashed var(--accent-hover); outline-offset: calc(3px * var(--inv)); }/* ===== VOID GRAPH — фото (этап E2) ===== */
+.gn--image .gn__in { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; }
+.gn__img { display: none; position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: fill; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.gn.has-img .gn__img { display: block; }
+.gn.has-img .gn__ph { display: none; }
+.gn__ph { margin: auto; padding: 8px; text-align: center; font-size: 13px; color: var(--text2); }
+/* ===== VOID GRAPH — G1: изгибы, свободные стрелки, рисование, фон ===== */
+
+/* Фон доски (по умолчанию — тёмный фон темы) */
+.gw__stage { background: var(--gw-bg, var(--bg)); }
+
+/* Слой ручек над объектами */
+.ge--top { z-index: 2000000001; }
+
+/* Толщина линии задаётся самой стрелкой (в единицах доски), но не тоньше, чем видно на малом масштабе */
+.ge__line { stroke-width: max(calc(var(--w, 2.5) * 1px), calc(1.6px * var(--inv))); }
+.ge__g.sel .ge__line { stroke-width: max(calc(var(--w, 2.5) * 1px + 1.5px), calc(2.6px * var(--inv))); }
+.ge__lbl { stroke: var(--gw-bg, var(--bg)); }
+
+/* Ручки: концы и изгиб */
+.ge__h { cursor: pointer; }
+.ge__hhit { fill: transparent; stroke: none; pointer-events: all; }
+.ge__hdot { fill: var(--gw-bg, var(--bg)); stroke: var(--accent-hover); stroke-width: 2.5; pointer-events: none; }
+.ge__hdot.on { fill: var(--accent-hover); }
+.ge__h--bend .ge__hdot { fill: var(--accent-hover); stroke: var(--text); stroke-width: 2; }
+
+/* Панели: длинные списки прокручиваются */
+.gw__sel { max-height: 40vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.gw__pal { max-height: calc(100% - 110px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+/* Режим рисования */
+.is-drawing .gn, .is-drawing .gn * { pointer-events: none !important; }
+.is-drawing .ge__hit { pointer-events: none !important; }
+.is-drawing .ge--top { display: none; }
+.gw__main.is-draw .gw__fab, .gw__main.is-draw .gw__sel,
+.gw__main.is-draw .gw__pal, .gw__main.is-draw .gw__palbd { display: none !important; }
+
+.gd { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible;
+  pointer-events: none; z-index: 2000000000; }
+.gd__s { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.gd__pad { position: absolute; inset: 0; z-index: 3; touch-action: none; cursor: crosshair; }
+.gd__pad.hand { pointer-events: none; }
+
+.gd__bar { position: absolute; left: 8px; right: 8px; bottom: calc(var(--safe-bottom) + 76px); z-index: 7;
+  display: grid; gap: 8px; padding: 8px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: 0 6px 24px rgba(0, 0, 0, .55); }
+.gd__row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; }
+.gd__row[hidden] { display: none; }
+.gd__btn { min-width: 44px; height: 40px; padding: 0 10px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--card); color: var(--text); font-size: 13px;
+  display: inline-flex; align-items: center; justify-content: center; }
+.gd__btn:active { border-color: var(--accent); }
+.gd__btn.on { border-color: var(--accent-hover); box-shadow: 0 0 0 1px var(--accent-hover); }
+.gd__btn--done { background: var(--accent); border-color: var(--accent); color: #fff; }
+.gd__btn.is-danger { color: var(--danger); border-color: var(--accent); }
+.gd__sw { width: 32px; height: 32px; padding: 0; border-radius: 50%; border: 2px solid var(--border); }
+.gd__sw.on { border-color: var(--text); box-shadow: 0 0 0 1px var(--text); }
+.gd__dot { display: block; border-radius: 50%; background: var(--text); }

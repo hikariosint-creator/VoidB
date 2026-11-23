@@ -1,0 +1,134 @@
+/* ===== VOID — кастомизация ===== */
+/* Значения по умолчанию совпадают с прежним видом приложения; JS (custom.js) подменяет их на выбранные. */
+
+:root {
+  --dens: 1; --anim-s: 1; --anim-t: 1; --glow: .5;
+  --gl-ring: rgba(163, 38, 50, .12); --gl-soft: rgba(163, 38, 50, .22); --gl-fab: rgba(163, 38, 50, .35);
+  --gl-blur: 18px; --on-accent: #fff;
+  --bg2-pop: var(--bg2); --card-pop: var(--card);
+  --cz-fw: 400; --cz-ls: normal; --cz-fs: 16px;
+}
+
+/* ---------- Фон страницы (однотонный, градиент, текстура) ---------- */
+.app { background-color: transparent; }
+body {
+  background-image: var(--cz-bg-image, none);
+  background-size: var(--cz-bg-size, auto);
+  background-repeat: var(--cz-bg-repeat, repeat);
+  background-position: 0 0;
+  font-size: var(--cz-fs); font-weight: var(--cz-fw); letter-spacing: var(--cz-ls);
+}
+
+/* Свечение сверху (масштабируется ползунком Glow) */
+.app, .auth {
+  background-image: radial-gradient(130% 50% at 50% -10%, var(--ambient-x, var(--ambient)), transparent 70%);
+}
+
+/* ---------- Прозрачность поверхностей ----------
+   Прозрачными становятся только фоны (--card, --bg2 — полупрозрачные цвета); текст и иконки не затрагиваются. */
+.modal__box, .sheet, .dx__pop, .bottomnav { background: var(--bg2-pop); }
+.toast { background: var(--card-pop); }
+html.cz-blur .modal__box, html.cz-blur .sheet, html.cz-blur .toast, html.cz-blur .dx__pop, html.cz-blur .bottomnav {
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+
+/* Рабочее полотно Graph всегда в цветах выбранной темы (его объекты рассчитаны на них) */
+.gw {
+  --bg: var(--theme-bg, #080808); --bg2: var(--theme-bg2, #101010); --card: var(--theme-card, #171717);
+  --border: var(--theme-border, #303030); --text: var(--theme-text, #E5E5E5); --text2: var(--theme-text2, #858585);
+  color: var(--text);
+}
+
+/* ---------- Радиус ---------- */
+.gw__dock, .gw__sel, .gd__bar { border-radius: calc(var(--radius) + 2px); }
+.dx-t, .gw__sel button, .gd__btn { border-radius: calc(var(--radius) * .8); }
+.theme-card__preview { border-radius: calc(var(--radius) * .6); }
+
+/* ---------- Плотность ---------- */
+.list { gap: calc(8px * var(--dens)); }
+.list-item { padding: calc(12px * var(--dens)) calc(14px * var(--dens)); }
+.actions, .grid3, .toolbar { gap: calc(10px * var(--dens)); }
+.btn { min-height: calc(48px * var(--dens)); }
+.btn--small { min-height: calc(40px * var(--dens)); }
+.stat-card { padding: calc(14px * var(--dens)) 8px; }
+.input, .select { min-height: calc(46px * var(--dens)); }
+.field input { min-height: calc(48px * var(--dens)); }
+.sheet__item { min-height: calc(52px * var(--dens)); }
+.set-panel { padding: calc(14px * var(--dens)); gap: calc(16px * var(--dens)); }
+.set-group { margin-bottom: calc(26px * var(--dens)); }
+.hero { padding: calc(20px * var(--dens)) 0 calc(22px * var(--dens)); }
+
+/* ---------- Акцент и свечение ---------- */
+.btn--primary, .gw__fab, .gd__btn--done { color: var(--on-accent, #fff); }
+.btn--primary, .btn--primary:active { box-shadow: 0 0 0 1px var(--gl-ring), 0 4px var(--gl-blur) var(--gl-soft); }
+html[data-theme="angel"] .btn--primary { box-shadow: 0 4px calc(var(--gl-blur) * .8) var(--gl-soft); }
+.gw__fab { box-shadow: 0 6px 20px rgba(0, 0, 0, .55), 0 0 var(--gl-blur) var(--gl-fab); }
+.gw__dock { box-shadow: 0 6px 24px rgba(0, 0, 0, .55), 0 0 0 1px var(--gl-ring); }
+.nav-btn.active::before { box-shadow: 0 0 calc(var(--gl-blur) * .5) var(--gl-soft); }
+.tab.active { box-shadow: inset 0 -2px 0 var(--accent), 0 0 calc(var(--gl-blur) * .4) var(--gl-ring); }
+.theme-card.on { box-shadow: 0 0 0 1px var(--accent-hover), 0 0 calc(var(--gl-blur) * .6) var(--gl-soft); }
+.list-item--draft { box-shadow: 0 0 calc(var(--gl-blur) * .5) var(--gl-ring); }
+.dx-t.on { box-shadow: 0 0 calc(var(--gl-blur) * .4) var(--gl-ring); }
+.btn:not(.btn--primary):active, .list-item--click:active { box-shadow: 0 0 calc(var(--gl-blur) * .5) var(--gl-ring); }
+.input:focus, .select:focus, .field input:focus { box-shadow: 0 0 calc(var(--gl-blur) * .6) var(--gl-ring); }
+
+/* ---------- Анимации (интенсивность 0–100 %) ---------- */
+@keyframes c-fade {
+  from { opacity: 0; transform: translateY(calc(6px * var(--anim-s, 1))); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes c-slide {
+  from { transform: translateY(calc(30px * var(--anim-s, 1))); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.view { animation-name: c-fade; animation-duration: calc(.22s * var(--anim-t, 1)); }
+.toast { animation-name: c-fade; animation-duration: calc(.2s * var(--anim-t, 1)); }
+.gw { animation-name: c-fade; animation-duration: calc(.18s * var(--anim-t, 1)); }
+.gw__menu, .gw__pal, .dx__pop { animation-name: c-fade; animation-duration: calc(.15s * var(--anim-t, 1)); }
+.sheet, .editor, .dx { animation-name: c-slide; animation-duration: calc(.2s * var(--anim-t, 1)); }
+.btn { transition-duration: calc(.15s * var(--anim-t, 1)); }
+@media (prefers-reduced-motion: reduce) {
+  .view, .toast, .gw, .gw__menu, .gw__pal, .dx__pop, .sheet, .editor, .dx { animation: none; }
+}
+html.anim-off *, html.anim-off *::before, html.anim-off *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+}
+
+/* ---------- Панель «Кастомизация» ---------- */
+.cz-line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.cz-val { font-size: 13px; color: var(--text); font-variant-numeric: tabular-nums; text-align: right; overflow-wrap: anywhere; }
+.cz-sub { display: grid; gap: 10px; }
+.cz-sub[hidden] { display: none; }
+.cz-crow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cz-clabel { font-size: 13px; color: var(--text2); }
+.cz-color { width: 52px; height: 44px; padding: 2px; flex: none; cursor: pointer;
+  border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); }
+.cz-ticks { display: grid; grid-template-columns: repeat(5, 1fr); font-size: 10px; color: var(--text2);
+  text-align: center; margin-top: -4px; }
+.cz-ticks span:first-child { text-align: left; }
+.cz-ticks span:last-child { text-align: right; }
+.cz-fonts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.cz-font { display: grid; gap: 4px; min-width: 0; padding: 10px; text-align: left; color: var(--text);
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); }
+.cz-font.on { border-color: var(--accent-hover); box-shadow: 0 0 0 1px var(--accent-hover); }
+.cz-font__s { font-size: 18px; line-height: 1.2; overflow-wrap: anywhere; }
+.cz-font__n { font-size: 12px; color: var(--text2); }
+.cz-gsw { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); padding: 0; }
+.cz-gsw.on { border-color: var(--text); outline: 2px solid var(--text2); outline-offset: 2px; }
+.cz-preview { display: grid; gap: 10px; padding: 12px; border: 1px dashed var(--border); border-radius: var(--radius); }
+.cz-prow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cz-preview .list-item__title { font-size: 16px; }
+
+/* Ползунки: крупные, удобные для пальца */
+.cz-range { -webkit-appearance: none; appearance: none; width: 100%; height: 40px; margin: 0;
+  background: transparent; touch-action: pan-y; cursor: pointer; }
+.cz-range:focus { outline: none; }
+.cz-range::-webkit-slider-runnable-track { height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--accent) var(--fill, 50%), var(--border) var(--fill, 50%)); }
+.cz-range::-moz-range-track { height: 6px; border-radius: 3px; background: var(--border); }
+.cz-range::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--accent); }
+.cz-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -11px;
+  border-radius: 50%; background: var(--accent-hover); border: 2px solid var(--bg);
+  box-shadow: 0 0 calc(var(--gl-blur) * .4) var(--gl-ring); }
+.cz-range::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent-hover); border: 2px solid var(--bg); }

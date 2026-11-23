@@ -1,0 +1,71 @@
+/* ===== VOID OSINT FRAMEWORK ===== */
+
+/* Меню «Ещё» стало длиннее: на низких экранах оно прокручивается */
+.sheet { max-height: 82vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+.of-i { stroke-linecap: round; stroke-linejoin: round; }
+
+/* Заголовок раздела */
+.of-title { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; overflow-wrap: anywhere; }
+.of-lead { margin: 8px 0 16px; font-size: 14px; line-height: 1.5; color: var(--text2); }
+
+/* Категории */
+.of-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.of-chip { display: inline-flex; align-items: center; gap: 6px; min-height: calc(38px * var(--dens));
+  padding: 0 12px; color: var(--text); font-size: 13px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.4); }
+.of-chip .icon { width: 16px; height: 16px; }
+.of-chip b { font-weight: 600; font-size: 11px; color: var(--text2); }
+.of-chip:active { border-color: var(--accent); }
+.of-chip.on { border-color: var(--accent-hover); background: var(--accent-22);
+  box-shadow: 0 0 calc(var(--gl-blur) * .5) var(--gl-ring); }
+.of-catdesc { margin: 0; font-size: 13px; color: var(--text2); min-height: 18px; }
+.of-catdesc:empty { display: none; }
+
+.of-count { font-size: 13px; color: var(--text2); margin: 4px 0 12px; }
+.of-reset { width: auto; justify-self: start; }
+
+/* Карточка инструмента */
+.of-card { display: block; }
+.of-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.of-name { font-weight: 700; font-size: 17px; line-height: 1.3; overflow-wrap: anywhere; }
+.of-pill { flex: none; padding: 2px 8px; font-size: 11px; letter-spacing: .1em; color: var(--text2);
+  border: 1px solid var(--border); border-radius: calc(var(--radius) * .6); }
+.of-cat { margin-bottom: 4px; text-transform: uppercase; }
+.of-desc { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--text); overflow-wrap: anywhere; }
+.of-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 10px 0 0; font-size: 13px; }
+.of-kv dt { margin: 0; color: var(--text2); }
+.of-kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.of-st { font-weight: 600; }
+.of-st--verified { color: var(--ok); }
+.of-st--unverified { color: var(--text2); }
+.of-st--unavailable { color: var(--danger); }
+.of-note { margin: 10px 0 0; padding: 8px 10px; font-size: 13px; line-height: 1.45; color: var(--text2);
+  background: var(--bg2); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;
+  overflow-wrap: anywhere; }
+.of-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.of-link { flex: 1 1 auto; min-width: 130px; gap: 8px; text-decoration: none; color: var(--text); }
+.of-link .icon { width: 16px; height: 16px; }
+.of-mark { flex: 1 1 100%; min-height: 38px; font-size: 13px; }
+.of-mark.on { color: var(--ok); border-color: var(--ok); }
+.of-foot { margin: 18px 0 0; font-size: 12px; line-height: 1.5; color: var(--text2); }
+/* ===== VOID OSINT FRAMEWORK: компактный вид ===== */
+.of-views { margin-bottom: 0; }
+
+.of-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(8px * var(--dens)); }
+@media (min-width: 560px) { .of-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.of-tile { display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: calc(118px * var(--dens));
+  padding: calc(10px * var(--dens)); text-align: left; color: var(--text); background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius); }
+.of-tile:active { border-color: var(--accent); box-shadow: 0 0 calc(var(--gl-blur) * .5) var(--gl-ring); }
+.of-tile__top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.of-tile__type { font-size: 10px; letter-spacing: .1em; color: var(--text2); overflow-wrap: anywhere; }
+.of-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--text2); }
+.of-dot--verified { background: var(--ok); }
+.of-dot--unavailable { background: var(--danger); }
+.of-tile__name { font-weight: 700; font-size: 15px; line-height: 1.25; overflow-wrap: anywhere; }
+.of-tile__desc { font-size: 12px; line-height: 1.4; color: var(--text2); overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.of-tile__cat { margin-top: auto; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent-hover); overflow-wrap: anywhere; }

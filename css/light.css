@@ -1,0 +1,42 @@
+/* ===== VOID — поправки для светлой темы «Ангел» ===== */
+
+html[data-theme="angel"] {
+  --shadow-s: 0 1px 2px rgba(40, 80, 130, .07), 0 6px 18px rgba(70, 120, 180, .10);
+  --shadow-m: 0 10px 34px rgba(40, 80, 130, .22);
+}
+
+/* Мягкие тени вместо тёмных рамок */
+html[data-theme="angel"] :is(.stat-card, .list-item, .set-panel, .panel, .theme-card) {
+  box-shadow: var(--shadow-s);
+}
+html[data-theme="angel"] :is(.modal__box, .toast, .sheet) { box-shadow: var(--shadow-m); }
+
+/* Затемнение под окнами: светло-синее, а не чёрное */
+html[data-theme="angel"] .modal,
+html[data-theme="angel"] .sheet-backdrop { background: rgba(35, 60, 95, .38); }
+
+/* Нижняя панель слегка просвечивает */
+html[data-theme="angel"] .bottomnav {
+  background: rgba(246, 250, 253, .88);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+html[data-theme="angel"] .btn--primary { box-shadow: 0 4px 14px rgba(47, 109, 181, .30); }
+html[data-theme="angel"] ::placeholder { color: var(--text2); opacity: .75; }
+html[data-theme="angel"] .theme-card__preview { border-color: var(--border); }
+html[data-theme="angel"] .editor__line[type="date"] { color-scheme: light; }
+
+/* Рабочее полотно Graph остаётся тёмным: цвета его объектов рассчитаны на тёмный фон */
+html[data-theme="angel"] .gw {
+  --bg: #080808; --bg2: #101010; --card: #171717; --border: #303030;
+  --text: #E5E5E5; --text2: #858585; --danger: #E06A75;
+  --accent: #3B7FC4; --accent-hover: #5FA6EA; --accent2: #8CC4F2;
+  --accent-12: rgba(59, 127, 196, .12); --accent-22: rgba(59, 127, 196, .22);
+  --accent-35: rgba(59, 127, 196, .35); --accent-45: rgba(59, 127, 196, .45);
+  color: var(--text);
+  color-scheme: dark;
+}
+html[data-theme="angel"] .gw :is(.gw__menu, .gw__pal, .gw__dock, .gw__sel) {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .6);
+}

@@ -1,0 +1,54 @@
+/* ===== VOID — темы оформления (шаг T1) =====
+   Значения по умолчанию совпадают с классической темой «Графит»; настоящие цвета
+   выставляет js/themes.js. Здесь же заменены места, где красный цвет был «зашит» в стили. */
+
+:root {
+  --accent2: #C03945;
+  --ambient: transparent;
+  --danger: #E06A75;
+  --accent-12: rgba(163, 38, 50, .12);
+  --accent-22: rgba(163, 38, 50, .22);
+  --accent-35: rgba(163, 38, 50, .35);
+  --accent-45: rgba(163, 38, 50, .45);
+}
+
+/* Мягкое свечение сверху (у «Графита», «Чёрного» и «Серого» оно прозрачное) */
+.app, .auth {
+  background-image: radial-gradient(130% 50% at 50% -10%, var(--ambient), transparent 70%);
+  background-repeat: no-repeat;
+}
+.topbar { background: transparent; }
+
+/* Места, где раньше был зашит красный */
+.warn { background: var(--accent-12); }
+.btn--danger:active { background: var(--accent-22); }
+.auth__error, .set-error { color: var(--danger); }
+.btn--danger, .gw__menu .is-danger, .gw__sel .is-danger { color: var(--danger); }
+mark { background: var(--accent-45); }
+.gw__dock { box-shadow: 0 6px 24px rgba(0, 0, 0, .55), 0 0 0 1px var(--accent-12); }
+.gw__fab { box-shadow: 0 6px 20px rgba(0, 0, 0, .55), 0 0 18px var(--accent-35); }
+
+/* Лёгкое свечение главных кнопок */
+.btn--primary { box-shadow: 0 0 0 1px var(--accent-12), 0 4px 18px var(--accent-22); }
+
+/* Плавная смена темы (класс ставится на 0,45 с только при переключении) */
+html.theming, html.theming *, html.theming *::before, html.theming *::after {
+  transition: background-color .35s ease, border-color .35s ease, color .35s ease,
+    box-shadow .35s ease, fill .35s ease, stroke .35s ease !important;
+}
+
+/* Выбор темы в настройках */
+.theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.theme-card { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 10px;
+  text-align: left; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); }
+.theme-card:active { border-color: var(--accent); }
+.theme-card.on { border-color: var(--accent-hover); box-shadow: 0 0 0 1px var(--accent-hover); }
+.theme-card__preview { display: flex; height: 34px; border-radius: 6px; overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .1); }
+.theme-card__preview span { flex: 1; }
+.theme-card__name { font-weight: 600; }
+.theme-card__desc { font-size: 12px; color: var(--text2); overflow-wrap: anywhere; }
+
+/* Кнопка «Как в теме» рядом с цветными кружками */
+.swatch--auto { width: auto; padding: 0 16px; border-radius: 22px; font-size: 13px;
+  background: var(--bg2); color: var(--text); }
